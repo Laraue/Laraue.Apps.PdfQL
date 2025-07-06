@@ -23,6 +23,7 @@ monaco.editor.defineTheme("PdfqlTheme", {
     { token: "token.identifier", foreground: "#D2D5B4" },
     { token: "token.operator", foreground: "#784b78" },
     { token: "dot", foreground: "#D2D5B4" },
+    { token: "string", foreground: "#848826FF" },
   ],
   colors: {
     "editor.background": "#2D1639",
@@ -78,9 +79,14 @@ watch(() => props.errors, (newValue) => {
   const model = editor?.getModel()
   if (!model) return
 
-  const newDecorations = getDecorations(newValue)
+  const newDecorations = getDecorations(newValue);
 
   decorationsIds.value = model.deltaDecorations(decorationsIds.value, newDecorations);
+})
+
+watch(() => props.modelValue, (newValue) => {
+  if (newValue !== actualValue.value)
+    editor?.setValue(newValue ?? "")
 })
 
 const getDecorations = (errors: PdfqlError[]) : IModelDeltaDecoration[] => {
@@ -95,9 +101,11 @@ const getDecorations = (errors: PdfqlError[]) : IModelDeltaDecoration[] => {
   })
 }
 
+const actualValue = ref(props.modelValue)
+
 onMounted(() => {
   editor = monaco.editor.create(editorRef.value, {
-    value: props.modelValue,
+    value: actualValue.value,
     language: 'Pdfql',
     theme: 'PdfqlTheme',
     minimap: { enabled: false },
@@ -107,7 +115,8 @@ onMounted(() => {
   })
 
   editor.onDidChangeModelContent(() => {
-    emit("update:modelValue", editor.getValue())
+    actualValue.value = editor.getValue();
+    emit("update:modelValue", actualValue.value)
     emit("change")
   })
 })
@@ -127,5 +136,8 @@ onMounted(() => {
 .monaco-editor{
   outline:none;
   box-shadow: none;
+}
+.pdfql-error{
+  background: #9081c3;
 }
 </style>

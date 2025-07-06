@@ -1,5 +1,10 @@
 <template>
   <div class="body">
+    <el-dialog v-model="isSnippetWindowOpened" title="Select a snippet" width="800">
+      <div v-for="snippet in snippets">
+        <a href="#" @click.prevent="chooseSnippet(snippet.pdfql)">{{ snippet.title }}</a>
+      </div>
+    </el-dialog>
     <div class="layout">
       <div class="content">
         <div class="title">
@@ -18,29 +23,28 @@
             <div class="editor-code-frame">
               <PdfqlEditor
                   v-model="pdfql"
-                  @change="checkSyntax"
                   :errors="result.errors"/>
             </div>
             <div class="editor-frame-bottom">
               Enter PDF query or
-              <a href="">choose</a>
+              <a href="" @click.prevent="isSnippetWindowOpened = true">choose</a>
               a snippet.
             </div>
           </div>
           <div class="editor-frame-right">
             <el-upload
                 class="pdf-uploader"
-                action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15">
-              <el-icon class="pdf-uploader-icon">
-                <Plus/>
-              </el-icon>
+                :on-change="handleChange"
+                :auto-upload="false"
+                :limit="1">
+              <a href="#">Select PDF</a>
             </el-upload>
-            Upload PDF
           </div>
         </div>
         <div>
           <button
-            class="execute-pdfql-button">
+            class="execute-pdfql-button"
+            @click="run">
             Execute PDF query
           </button>
         </div>
@@ -60,7 +64,7 @@
               Output Window
             </div>
             <div class="execution-result__current-state">
-              2 errors found
+              {{ result.errors.length > 0 ? result.errors.length + ' error(s) found' : '' }}
             </div>
           </div>
         </div>
@@ -95,11 +99,12 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, ref} from 'vue';
+import {defineComponent, onMounted, ref, watch} from 'vue';
 import axios from "axios";
 import PdfqlEditor from "@/components/PdfqlEditor.vue";
 import {PdfqlError} from "@/components/PdfqlError";
 import { Plus } from '@element-plus/icons-vue'
+import {UploadFile, UploadProps} from "element-plus";
 
 export default defineComponent({
   name: 'HomeView',
@@ -108,15 +113,13 @@ export default defineComponent({
     Plus
   },
   setup(){
-    const defaultPsql = `select(tables)
-->selectMany(tableCells)
-->map((item) => item.GetCell(2))
-->map((item) => item.Text())`;
+    const defaultPsql = `select(tables)`;
 
-    const files = ref<File[]>([]);
-    const pdfql = ref(defaultPsql);
+    const file = ref<UploadFile | null>(null);
+    const pdfql = ref("");
     const isLoading = ref(false);
     const result = ref<PsqlExecutionResult>({ result: null, errors: [] });
+    const isSnippetWindowOpened = ref(false);
 
     interface PsqlExecutionResult {
       result: any;
@@ -146,16 +149,20 @@ export default defineComponent({
       return await withLoader(async() => {
         const { data } = await axios.post('psql/run-query', {
           pdfql: pdfql.value,
-          pdfBytes: await getBase64(files.value[0]!)
+          pdfBytes: await getBase64(file.value!)
         });
         return data;
       })
     }
 
+    const handleChange: UploadProps['onChange'] = (uploadFile) => {
+      file.value = uploadFile
+    }
+
     const getBase64 = (file: any) => {
       return new Promise((resolve, reject) => {
         const reader = new FileReader();
-        reader.readAsDataURL(file);
+        reader.readAsDataURL(file.raw);
         reader.onload = () => resolve(reader.result?.slice(28));
         reader.onerror = (error) => reject(error);
       });
@@ -169,12 +176,40 @@ export default defineComponent({
       }
     }
 
+    const snippets = [
+      {
+        title: "Select 3 first tables",
+        pdfql: "select(tables)\r->take(3)"
+      },
+      {
+        title: "Select table rows where first cell equals 'Customer'",
+        pdfql: "select(tableRows)\r->filter(row => row.GetCell(1).Text() == 'Customer')"
+      },
+    ]
+
+    const chooseSnippet = (value: string) => {
+      pdfql.value = value;
+      isSnippetWindowOpened.value = false;
+    }
+
+    watch(pdfql, () => {
+      checkSyntax();
+    })
+
+    onMounted(() => {
+      pdfql.value = defaultPsql;
+    })
+
     return {
-      files,
+      file,
       pdfql,
       run,
       result,
       checkSyntax,
+      isSnippetWindowOpened,
+      snippets,
+      chooseSnippet,
+      handleChange
     }
   }
 });
@@ -211,31 +246,30 @@ export default defineComponent({
   }
   a{
     text-decoration: underline;
-    color: rgb(132, 136, 38);
+    color: #848826FF;
   }
   a:hover{
     color: rgb(201, 205, 116);
+  }
+  a:focus{
+    color: #e2e3c2;
   }
   .title-documentation-link{
     margin-top: 20px;
     margin-bottom: 60px;
   }
   .pdf-uploader{
-    color: #1c5bba;
     overflow: hidden;
     cursor: pointer;
     position: relative;
-    border: 1px dashed var(--el-border-color);
-    border-radius: 6px;
-    width: 5vw;
-    height: 5vw;
+    border: 1px dashed #fff;
+    width: 10vw;
+    height: 100%;
     margin-left: 1vw;
-    margin-right: 1vw;
     display: flex;
-    justify-content: center;
-  }
-  .pdf-uploader-icon{
-    color: #8c939d;
+    justify-content: space-between;
+    flex-flow: column;
+    padding: 2vw 0;
   }
   .editor-frame-right{
     display: flex;
