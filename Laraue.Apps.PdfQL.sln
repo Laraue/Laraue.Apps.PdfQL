@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Laraue.Apps.PdfQL.WebApi", "Laraue.Apps.PdfQL.WebApi\Laraue.Apps.PdfQL.WebApi.csproj", "{BDE351B3-C964-4897-94FB-45E6398CD107}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Laraue.Apps.PdfQL.AppServices", "Laraue.Apps.PdfQL.AppServices\Laraue.Apps.PdfQL.AppServices.csproj", "{74205DCD-6800-48CA-929E-C5A640F234D6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Laraue.Apps.PdfQL.Contracts", "Laraue.Apps.PdfQL.Contracts\Laraue.Apps.PdfQL.Contracts.csproj", "{5D3D0CFF-4323-4B1D-A88B-CF4B33AE7EFF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BDE351B3-C964-4897-94FB-45E6398CD107}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BDE351B3-C964-4897-94FB-45E6398CD107}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BDE351B3-C964-4897-94FB-45E6398CD107}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BDE351B3-C964-4897-94FB-45E6398CD107}.Release|Any CPU.Build.0 = Release|Any CPU
+		{74205DCD-6800-48CA-929E-C5A640F234D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74205DCD-6800-48CA-929E-C5A640F234D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{74205DCD-6800-48CA-929E-C5A640F234D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74205DCD-6800-48CA-929E-C5A640F234D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D3D0CFF-4323-4B1D-A88B-CF4B33AE7EFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D3D0CFF-4323-4B1D-A88B-CF4B33AE7EFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D3D0CFF-4323-4B1D-A88B-CF4B33AE7EFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D3D0CFF-4323-4B1D-A88B-CF4B33AE7EFF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
