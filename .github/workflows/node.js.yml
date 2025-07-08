@@ -30,6 +30,6 @@ jobs:
          port: ${{ secrets.SSH_PORT }} # 22
          user: ${{ secrets.SSH_USER }} # "user"
          password: ${{ secrets.SSH_PASSWORD }} # "password"
-         local: dist/*
+         local: frontend/dist/*
          remote: "/home/laraue/frontend/pdfql"
          post_upload: echo "This will be executed after the upload!"
