@@ -16,7 +16,7 @@ var app = builder.Build();
 var origins = builder
     .Configuration
     .GetRequiredSection("Cors:Hosts")
-    .Get<string[]>();
+    .Get<string[]>() ?? throw new InvalidOperationException("Hosts section not found");
 
 app.UseCors(corsPolicyBuilder =>
     corsPolicyBuilder.WithOrigins(origins)
