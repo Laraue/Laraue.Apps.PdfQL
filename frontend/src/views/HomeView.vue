@@ -42,11 +42,12 @@
           </div>
         </div>
         <div>
-          <button
+          <el-button
             class="execute-pdfql-button"
-            @click="run">
+            @click="run"
+            :disabled="pdfql.length == 0 || file == null">
             Execute PDF query
-          </button>
+          </el-button>
         </div>
         <div class="execution-result-frame">
           <div class="execution-result">
@@ -58,6 +59,9 @@
                {{error.message}}
              </p>
            </div>
+            <div v-if="result.result" class="execution-result__result">
+              <pre>{{JSON.stringify(result.result, null, 2)}}</pre>
+            </div>
          </div>
           <div class="execution-result__stat">
             <div class="execution-result__title">
@@ -135,6 +139,7 @@ export default defineComponent({
     }
 
     const checkSyntax = async () => {
+      result.value.result = null;
       result.value.errors = (await checkSyntaxAsync()).errors;
     }
 
@@ -149,7 +154,8 @@ export default defineComponent({
       return await withLoader(async() => {
         const { data } = await axios.post('psql/run-query', {
           pdfql: pdfql.value,
-          pdfBytes: await getBase64(file.value!)
+          pdfBytes: await getBase64(file.value!),
+          extractionAlgorithm: 0
         });
         return data;
       })
@@ -307,6 +313,15 @@ export default defineComponent({
   .execute-pdfql-button:hover{
     background: #8650a3;
     cursor: pointer;
+    color: #fff;
+  }
+  .execute-pdfql-button.is-disabled{
+    background: #2D1639;
+    color: #fff;
+  }
+  .execute-pdfql-button.is-disabled:hover{
+    background: #2D1639;
+    color: #fff;
   }
   .execution-result-frame{
     margin-top: 5vh;
@@ -340,6 +355,9 @@ export default defineComponent({
     justify-content: space-between;
     font-size: 14px;
     font-weight: 300;
+  }
+  .execution-result__result{
+    text-align: left;
   }
   .footer{
     background: #E0E0E0;

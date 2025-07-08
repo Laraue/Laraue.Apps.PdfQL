@@ -25,11 +25,18 @@ public class PdfqlService : IPdfqlService
 
     public RunQueryResult RunQuery(RunQueryRequest request)
     {
+        IExtractionAlgorithm extractionAlgorithm = request.ExtractionAlgorithm switch
+        {
+            ExtractionAlgorithm.BasicExtractionAlgorithm => new BasicExtractionAlgorithm(),
+            ExtractionAlgorithm.SpreadsheetExtractionAlgorithm => new SpreadsheetExtractionAlgorithm(),
+            _ => throw new NotImplementedException(),
+        };
+        
         var pdfDocument = new PdfDocument(
             request.PdfBytes,
             new PdfDocumentOptions
             {
-                ExtractionAlgorithm = new SpreadsheetExtractionAlgorithm()
+                ExtractionAlgorithm = extractionAlgorithm
             });
 
         var executionResult = _pSqlExecutor.TryExecutePdfql(request.Pdfql, pdfDocument);

@@ -7,8 +7,7 @@ import qs from 'qs';
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 
-
-axios.defaults.baseURL = "http://localhost:5192/api/v1"
+axios.defaults.baseURL = process.env.VUE_APP_BASE_URL;
 axios.defaults.paramsSerializer = (params) => {
     return qs.stringify(params)
 }

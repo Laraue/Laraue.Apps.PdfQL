@@ -2,4 +2,11 @@
 
 public record RunQueryRequest(
     byte[] PdfBytes,
-    string Pdfql);
+    string Pdfql,
+    ExtractionAlgorithm ExtractionAlgorithm);
+
+public enum ExtractionAlgorithm
+{
+    BasicExtractionAlgorithm,
+    SpreadsheetExtractionAlgorithm,
+}    
