@@ -34,6 +34,6 @@ jobs:
        port: ${{ secrets.SSH_PORT }} # 22
        user: ${{ secrets.SSH_USER }} # "user"
        password: ${{ secrets.SSH_PASSWORD }} # "password"
-       local: Laraue.Apps.PdfQL.WebApi/bin/Release/net9.0/
+       local: Laraue.Apps.PdfQL.WebApi/bin/Release/net9.0/*
        remote: "/home/laraue/backend"
        post_upload: echo "This will be executed after the upload!"
