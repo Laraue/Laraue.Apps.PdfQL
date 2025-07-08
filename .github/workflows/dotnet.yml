@@ -28,13 +28,12 @@ jobs:
       run: dotnet build --no-restore -c Release
     
     - name: Upload
-      uses: ilCollez/ssh-scp-deploy@v1.3.0
+      uses: mdallasanta/ssh-scp-deploy@1.2.0
       with:
        host: ${{ secrets.SSH_HOST }} # "example.com"
        port: ${{ secrets.SSH_PORT }} # 22
-       username: ${{ secrets.SSH_USER }} # "user"
+       user: ${{ secrets.SSH_USER }} # "user"
        password: ${{ secrets.SSH_PASSWORD }} # "password"
-       files: |
-        Laraue.Apps.PdfQL.WebApi/bin/Release/net9.0/*
-       remote-path: "/home/laraue/backend"
-       clean: true
+       local: Laraue.Apps.PdfQL.WebApi/bin/Release/net9.0/
+       remote: "/home/laraue/backend"
+       post_upload: echo "This will be executed after the upload!"
