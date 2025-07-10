@@ -1,5 +1,6 @@
-import {createRouter, createWebHashHistory, createWebHistory, RouteRecordRaw} from 'vue-router'
-import PdfqlView from '../views/PdfqlView.vue'
+import {createRouter, createWebHistory} from 'vue-router'
+import {type RouteRecordRaw} from 'vue-router'
+import PdfqlView from "../PdfqlView.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -17,7 +18,7 @@ const router = createRouter({
   routes
 })
 
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, _, next) => {
   document.title = to.meta.title as string;
   next();
 });

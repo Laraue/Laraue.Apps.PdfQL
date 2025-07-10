@@ -9,7 +9,7 @@
       <div class="content">
         <div class="title">
           <div class="title-text">
-            Extract objects from PDF
+            <h1>Extract objects from PDF</h1>
           </div>
           <div class="title-description">
             The service helps to extract PDF parts in the popular formats for free. No even registration required.
@@ -310,7 +310,7 @@ export default defineComponent({
     margin-top: 5vh;
     max-width: 960px;
   }
-  .title-text{
+  .title-text h1{
     font-size: 36px;
     font-weight: 600;
   }
@@ -467,5 +467,8 @@ export default defineComponent({
 <style>
   .el-upload-list__item:hover{
     background-color: #2D1639 !important;
+  }
+  .el-dropdown-menu__item{
+    font-family: Inter,serif;
   }
 </style>
