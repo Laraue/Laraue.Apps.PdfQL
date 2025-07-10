@@ -27,7 +27,7 @@ jobs:
           cache: 'pnpm'
           cache-dependency-path: 'frontend'
       - run: pnpm i --prefix frontend
-      - run: pnpm run build --if-present --prefix frontend
+      - run: pnpm --filter ./frontend --if-present build
       
       - name: Upload
         uses: marcodallasanta/ssh-scp-deploy@v1.2.0
