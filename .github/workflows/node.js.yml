@@ -24,7 +24,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20.x'
-          cache: 'frontend/pnpm'
+          cache: 'pnpm'
+          cache-dependency-path: 'frontend'
       - run: pnpm ci --prefix frontend
       - run: pnpm run build --if-present --prefix frontend
       
