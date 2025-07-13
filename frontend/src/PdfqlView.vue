@@ -159,6 +159,9 @@
           <div class="title-description">
             The service helps to extract PDF parts in the popular formats for free. Registration is not required.
           </div>
+          <div class="title-documentation-link">
+            <a href="https://laraue.com/pdfql/docs/">Documentation</a>
+          </div>
         </div>
         <div class="snippet-selection-frame">
           <div class="snippet-selection-dropdown">
@@ -432,7 +435,7 @@ a:focus{
   justify-content: center;
   align-items: flex-end;
   font-size: 18px;
-  margin-top: 5vh;
+  margin-top: 7vh;
 }
 .snippet-selection-dropdown .el-button{
   background: rgb(26, 4, 37);
@@ -442,6 +445,9 @@ a:focus{
 }
 .run-execution-frame{
   margin-bottom: 5vh;
+}
+.title-documentation-link{
+  margin-top: 3vh;
 }
 </style>
 <style>
