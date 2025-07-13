@@ -160,7 +160,7 @@
             The service helps to extract PDF parts in the popular formats for free. Registration is not required.
           </div>
           <div class="title-documentation-link">
-            <a href="https://laraue.com/pdfql/docs/">Documentation</a>
+            <a href="https://laraue.com/pdfql/docs/" target="_blank">Documentation</a>
           </div>
         </div>
         <div class="snippet-selection-frame">
