@@ -12,7 +12,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: getPath(':pathMatch(.*)*'),
     redirect: _ => {
-      return { path: '/error/404' }
+      return { path: getPath('error/404') }
     },
   },
   {
