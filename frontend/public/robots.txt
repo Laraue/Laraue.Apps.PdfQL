@@ -1,4 +1,0 @@
-User-agent: *
-Disallow: 
-Sitemap: https://laraue.com/sitemap.xml
-Sitemap: https://laraue.com/pdfql/docs/sitemap.xml

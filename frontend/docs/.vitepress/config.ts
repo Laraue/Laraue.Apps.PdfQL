@@ -8,7 +8,7 @@ export default defineConfig({
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Home', link: '/' },
-      { text: 'Application', link: 'https://laraue.com' },
+      { text: 'Application', link: 'https://laraue.com/pdf-extractor' },
     ],
 
     sidebar: [
@@ -55,9 +55,9 @@ export default defineConfig({
     ]
   },
   sitemap: {
-    hostname: 'https://laraue.com/pdfql/docs'
+    hostname: 'https://laraue.com/pdf-extractor/docs/'
   },
-  base: '/pdfql/docs/',
+  base: '/pdf-extractor/docs/',
   head: [
     [
       'script',
