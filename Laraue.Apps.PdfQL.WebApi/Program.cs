@@ -4,6 +4,8 @@ using Laraue.PdfQL.PdfObjects.Serializing;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Logging.AddJsonConsole();
+
 builder.Services.AddSingleton<IPdfqlService, PdfqlService>();
 builder.Services.AddSingleton<IPdfqlExecutor, PdfqlExecutor>();
 builder.Services.AddSingleton<ISerializer, Serializer>();

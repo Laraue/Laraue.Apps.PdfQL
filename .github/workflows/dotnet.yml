@@ -19,21 +19,28 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 9.0.x
+        dotnet-version: 10.0.x
     
     - name: Restore dependencies
       run: dotnet restore
     
     - name: Build
       run: dotnet build --no-restore -c Release
-    
-    - name: Upload
+
+    - name: Pack Web API Host
+      if: github.ref == 'refs/heads/main'
+      run: tar -czf webapi-host.tar.gz -C Laraue.Apps.PdfQL.WebApi/bin/Release/net10.0 .
+
+    - name: Upload Web API Host
+      if: github.ref == 'refs/heads/main'
       uses: marcodallasanta/ssh-scp-deploy@v1.2.0
       with:
        host: ${{ secrets.SSH_HOST }} # "example.com"
        port: ${{ secrets.SSH_PORT }} # 22
        user: ${{ secrets.SSH_USER }} # "user"
        password: ${{ secrets.SSH_PASSWORD }} # "password"
-       local: Laraue.Apps.PdfQL.WebApi/bin/Release/net9.0/*
+       local: webapi-host.tar.gz
        remote: "/home/laraue/backend"
-       post_upload: echo "This will be executed after the upload!"
+       post_upload:
+        cd /home/laraue/backend && find . -mindepth 1 ! -name webapi-host.tar.gz -delete &&
+        tar -xzf webapi-host.tar.gz && rm webapi-host.tar.gz
