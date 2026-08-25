@@ -11,6 +11,8 @@ builder.Services.AddSingleton<IPdfqlExecutor, PdfqlExecutor>();
 builder.Services.AddSingleton<ISerializer, Serializer>();
 builder.Services.AddControllers();
 
+builder.Services.AddHealthChecks();
+
 builder.WebHost.ConfigureKestrel(options => options.Limits.MaxRequestBodySize = 50 * 1024 * 1024);
 
 var app = builder.Build();
@@ -27,5 +29,6 @@ app.UseCors(corsPolicyBuilder =>
         .AllowAnyHeader());
 
 app.MapControllers();
+app.MapHealthChecks("/_health");
 
 app.Run();
