@@ -1,6 +1,7 @@
 using Laraue.Apps.PdfQL.AppServices;
 using Laraue.PdfQL;
 using Laraue.PdfQL.PdfObjects.Serializing;
+using OpenTelemetry.Metrics;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,14 @@ builder.Services.AddControllers();
 builder.Services.AddHealthChecks();
 
 builder.WebHost.ConfigureKestrel(options => options.Limits.MaxRequestBodySize = 50 * 1024 * 1024);
+
+builder.Services
+    .AddOpenTelemetry()
+    .WithMetrics(metrics => metrics
+        .AddAspNetCoreInstrumentation()
+        .AddHttpClientInstrumentation()
+        .AddRuntimeInstrumentation()
+        .AddPrometheusExporter());
 
 var app = builder.Build();
 
@@ -30,5 +39,6 @@ app.UseCors(corsPolicyBuilder =>
 
 app.MapControllers();
 app.MapHealthChecks("/_health");
+app.MapPrometheusScrapingEndpoint("/_metrics");
 
 app.Run();
